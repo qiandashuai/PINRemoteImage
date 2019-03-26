@@ -219,6 +219,14 @@ typedef void(^PINRemoteImageManagerMetrics)(NSURL  * __nonnull url, NSURLSession
 
 
 /**
+ Sets the shared instance of PINRemoteImageManager to an instance with the supplied imageCache. If imageCache is nil, image manager will use most appropriate implementation available (based on PINCache or NSCache, depending on subspec)@see PINRemoteImageBasicCache for an example. You specify a custom imageCache  This method should not be used if the shared instance has already been created.
+ 
+ @param imageCache The configuration used to create the PINRemoteImageManager.
+ */
++ (void)setShareImageManagerWithImageCache:(nullable id<PINRemoteImageCaching>)imageCache;
+
+
+/**
  The result of this method is assigned to self.cache in init. If you wish to provide a customized cache to the manager you can subclass PINRemoteImageManager and return a custom object, implementing PINRemoteImageCaching protocol from this method. Same effect could be achieved by using initWithSessionConfiguration:alternativeRepresentationProvider:imageCache: initializer.
  @deprecated Use the class method +defaultImageCache
  @warning This method is meant only for override. It will be called *once* by an instance of PINRemoteImageManager. The default implementation creates a new cache on every call. If you're looking to access the cache being used by an instance of PINRemoteImageManager, @c cache.

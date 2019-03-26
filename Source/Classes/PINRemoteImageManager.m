@@ -162,6 +162,14 @@ static dispatch_once_t sharedDispatchToken;
     });
 }
 
++ (void)setShareImageManagerWithImageCache:(nullable id<PINRemoteImageCaching>)imageCache {
+    NSAssert(sharedImageManager == nil, @"sharedImageManager singleton is already configured");
+    
+    dispatch_once(&sharedDispatchToken, ^{
+        sharedImageManager = [[[self class] alloc] initWithSessionConfiguration:nil alternativeRepresentationProvider:nil imageCache:imageCache];
+    });
+}
+
 - (instancetype)init
 {
     return [self initWithSessionConfiguration:nil];
@@ -182,6 +190,7 @@ static dispatch_once_t sharedDispatchToken;
                                           imageCache:(nullable id<PINRemoteImageCaching>)imageCache {
     return [self initWithSessionConfiguration:sessionConfiguration alternativeRepresentationProvider:alternateRepDelegate imageCache:imageCache managerConfiguration:nil];
 }
+
 
 -(nonnull instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)sessionConfiguration
                   alternativeRepresentationProvider:(id<PINRemoteImageManagerAlternateRepresentationProvider>)alternateRepProvider
